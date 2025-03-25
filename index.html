@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taskify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,27 +19,28 @@
             <div class="details">
                 <h1>ToDo App</h1>
                 <p>You can do it! Keep it up!</p>
-                <div id="progress-bar">
+                <div id="progressBar">
                     <div id="progress"></div>
                 </div>
             </div>
             <div class="stats-numbers">
-                <p id="numbers">2 / 3</p>
+                <p id="numbers">0 / 0</p>
             </div>
         </div>
 
         <!-- input container -->
 
         <form action="">
-            <input type="text" placeholder="Write your task">
-            <button type="submit">+</button>
+            <input id="taskInput" type="text" placeholder="Write your task">
+            <button id="newTask" type="submit">+</button>
         </form>
 
         <!-- tasks container -->
 
-        <ul class="task-list"></ul>
+        <ul id="task-list"></ul>
         
     </div>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </body>
 </html>

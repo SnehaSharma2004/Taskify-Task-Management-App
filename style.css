@@ -89,3 +89,42 @@ button{
     font-weight: bold;
     outline: none;
 }
+
+/* task-list item style*/
+
+#task-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+    width: 98%;
+    list-style: none;
+}
+.taskItem{
+    width: 98%;
+    display: flex;
+    background-color: var(--secondaryBackground);
+    padding: 10px;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+.task{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.task input{
+    width: 20px;
+    height: 20px;
+}
+.completed p{ 
+    text-decoration: line-through;
+    color: var(--teal);
+}
+.taskItem i{
+    width: 24px;
+    height: 24px;
+    margin-top: 3px;
+    cursor: pointer;
+}
