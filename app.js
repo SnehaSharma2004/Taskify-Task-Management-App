@@ -20,12 +20,21 @@ const addTask = ()=>{
     const taskInput = document.getElementById('taskInput');
     const text = taskInput.value.trim();
 
-    if(text){
-        tasks.push({text:text, completed:false});
+    if (text) {
+      if (taskInput.dataset.editIndex !== undefined) {
+          // Update existing task instead of deleting it
+          tasks[taskInput.dataset.editIndex].text = text;
+          delete taskInput.dataset.editIndex; // Remove edit flag
+      } else {
+          // Add new task
+          tasks.push({ text: text, completed: false });
+      }
         
         updateTasksList();
         updateStats();
         saveTasks();
+
+        taskInput.value = ""; /* clears input fiels after adding a task */
     }
 };
 
@@ -46,13 +55,15 @@ const deleteTask = (index) =>{
     saveTasks();
 };
 
-const editTask = (index) =>{
+function editTask  (index) {
     const taskInput = document.getElementById('taskInput');
-    task.value= tasks[index].text;
-    tasks.splice(index,1);
-    updateTasksList();
-    updateStats();
-    saveTasks();
+    taskInput.value= tasks[index].text;
+    taskInput.focus();
+
+  /* The issue with your editTask function is that you're removing the task (tasks.splice(index,1)) before allowing the user to edit it. Instead of deleting the task immediately, you should store the index and update the task later when the user submits the change. */
+
+  // Store the index of the task being edited
+  taskInput.dataset.editIndex = index;
 };
 
 /* function to update stats */
@@ -64,11 +75,11 @@ const updateStats = ()=>{
     const progressBar = document.getElementById('progress');
     progressBar.style.width = `${progress}%`;
 
-    document.getElementById('numbers').innerText = `${
+    document.getElementById('numbers').textContent = `${
         completeTasks} / ${totalTasks}`;
 
     if(tasks.length && completeTasks == totalTasks){
-        confetti();
+        launchConfetti();
     }
 };
 
@@ -95,8 +106,12 @@ const updateTasksList = ()=>{
             </div>
         </div>
         `;
-
-        listItem.addEventListener('change', ()=> toggleTaskComplete(index));
+        /* delete and edit icons are using onclick="deleteTask(${index})" and onclick="editTask(${index})", but since these elements are dynamically added to the DOM, these event handlers might not work reliably. */
+        /* therefore add event listeners */
+        // listItem.querySelector('.checkbox').addEventListener('change', () => toggleTaskComplete(index));
+        // listItem.querySelector('.edit-icon').addEventListener('click', () => editTask(index));
+        // listItem.querySelector('.delete-icon').addEventListener('click', () => deleteTask(index));
+        
         taskList.append(listItem);
     });
 };
@@ -109,7 +124,7 @@ document.getElementById('newTask').addEventListener('click',function(e){
 
 /* https://confetti.js.org/more.html */
 
-const confetti = () => {
+const launchConfetti = () => { /* renamed the function coz it was calling it recursively causing stack overflow */
   const count = 200,
     defaults = {
       origin: { y: 0.7 },
